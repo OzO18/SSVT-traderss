@@ -1,0 +1,2670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StockLive | SSVT Traders</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+:root{
+    --primary:#2563eb;
+    --primary-dark:#1d4ed8;
+    --bg:#f4f7fb;
+    --card:#ffffff;
+    --text:#172033;
+    --muted:#718096;
+    --border:#e5eaf2;
+    --success:#16a34a;
+    --warning:#f59e0b;
+    --danger:#dc2626;
+}
+
+body{
+    background:var(--bg);
+    color:var(--text);
+}
+
+/* LOGIN */
+
+.login-screen{
+    position:fixed;
+    inset:0;
+    background:linear-gradient(135deg,#0f172a,#1e40af);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:9999;
+}
+
+.login-box{
+    width:420px;
+    max-width:92%;
+    background:white;
+    border-radius:22px;
+    padding:35px;
+    box-shadow:0 25px 70px rgba(0,0,0,.3);
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-size:25px;
+    font-weight:bold;
+    margin-bottom:8px;
+}
+
+.logo-icon{
+    width:48px;
+    height:48px;
+    border-radius:14px;
+    background:linear-gradient(135deg,#2563eb,#06b6d4);
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:22px;
+}
+
+.login-box h2{
+    margin-top:18px;
+    margin-bottom:8px;
+}
+
+.login-box p{
+    color:var(--muted);
+    margin-bottom:25px;
+}
+
+.input-group{
+    margin-bottom:17px;
+}
+
+.input-group label{
+    display:block;
+    margin-bottom:7px;
+    font-weight:bold;
+    font-size:14px;
+}
+
+.input-group input,
+.input-group select{
+    width:100%;
+    padding:13px 14px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    outline:none;
+    font-size:14px;
+}
+
+.input-group input:focus,
+.input-group select:focus{
+    border-color:var(--primary);
+}
+
+.btn{
+    border:none;
+    padding:12px 18px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:bold;
+    transition:.2s;
+}
+
+.btn:hover{
+    transform:translateY(-1px);
+}
+
+.btn-primary{
+    background:var(--primary);
+    color:white;
+}
+
+.btn-primary:hover{
+    background:var(--primary-dark);
+}
+
+.btn-secondary{
+    background:#eef2ff;
+    color:#3730a3;
+}
+
+.btn-danger{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+.full{
+    width:100%;
+}
+
+.switch-login{
+    text-align:center;
+    margin-top:20px;
+    color:var(--muted);
+    font-size:14px;
+}
+
+.switch-login span{
+    color:var(--primary);
+    cursor:pointer;
+    font-weight:bold;
+}
+
+/* APP */
+
+.app{
+    display:none;
+    min-height:100vh;
+}
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    bottom:0;
+    width:250px;
+    background:#0f172a;
+    color:white;
+    padding:24px 15px;
+    z-index:100;
+}
+
+.sidebar-brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:0 10px 28px;
+}
+
+.sidebar-brand .logo-icon{
+    width:42px;
+    height:42px;
+}
+
+.sidebar-brand h2{
+    font-size:18px;
+}
+
+.sidebar-brand small{
+    color:#94a3b8;
+}
+
+.nav{
+    display:flex;
+    flex-direction:column;
+    gap:7px;
+}
+
+.nav button{
+    border:none;
+    background:transparent;
+    color:#cbd5e1;
+    padding:13px 15px;
+    border-radius:10px;
+    text-align:left;
+    cursor:pointer;
+    font-size:14px;
+    font-weight:bold;
+}
+
+.nav button:hover,
+.nav button.active{
+    background:#1d4ed8;
+    color:white;
+}
+
+.logout{
+    position:absolute;
+    bottom:25px;
+    left:15px;
+    right:15px;
+}
+
+/* MAIN */
+
+.main{
+    margin-left:250px;
+    min-height:100vh;
+}
+
+.topbar{
+    height:72px;
+    background:white;
+    border-bottom:1px solid var(--border);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 30px;
+    position:sticky;
+    top:0;
+    z-index:50;
+}
+
+.topbar h3{
+    font-size:20px;
+}
+
+.user-area{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.avatar{
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:#dbeafe;
+    color:#1d4ed8;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+}
+
+.content{
+    padding:30px;
+}
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+.page-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+.page-title h1{
+    font-size:27px;
+}
+
+.page-title p{
+    color:var(--muted);
+    margin-top:5px;
+}
+
+/* CARDS */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+    margin-bottom:25px;
+}
+
+.stat-card{
+    background:white;
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:22px;
+}
+
+.stat-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.stat-icon{
+    width:43px;
+    height:43px;
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#eff6ff;
+    color:#2563eb;
+    font-size:20px;
+}
+
+.stat-number{
+    font-size:29px;
+    font-weight:bold;
+    margin-top:15px;
+}
+
+.stat-label{
+    color:var(--muted);
+    margin-top:5px;
+    font-size:14px;
+}
+
+/* PANELS */
+
+.panel{
+    background:white;
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:22px;
+    margin-bottom:22px;
+}
+
+.panel-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:18px;
+}
+
+.panel-header h2{
+    font-size:18px;
+}
+
+.search{
+    padding:11px 14px;
+    border:1px solid var(--border);
+    border-radius:9px;
+    outline:none;
+    min-width:230px;
+}
+
+/* TABLE */
+
+.table-wrapper{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th{
+    background:#f8fafc;
+    color:#64748b;
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+}
+
+th,td{
+    padding:14px 12px;
+    border-bottom:1px solid var(--border);
+    text-align:left;
+}
+
+td{
+    font-size:14px;
+}
+
+.product-name{
+    font-weight:bold;
+}
+
+.product-sub{
+    color:var(--muted);
+    font-size:12px;
+    margin-top:3px;
+}
+
+.badge{
+    display:inline-block;
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:bold;
+}
+
+.badge-success{
+    background:#dcfce7;
+    color:#166534;
+}
+
+.badge-warning{
+    background:#fef3c7;
+    color:#92400e;
+}
+
+.badge-danger{
+    background:#fee2e2;
+    color:#991b1b;
+}
+
+/* GRID */
+
+.two-column{
+    display:grid;
+    grid-template-columns:1.3fr .7fr;
+    gap:20px;
+}
+
+/* BILLING */
+
+.billing-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+}
+
+.bill-items{
+    min-height:180px;
+}
+
+.bill-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:12px;
+    border:1px solid var(--border);
+    border-radius:10px;
+    margin-bottom:10px;
+}
+
+.bill-total{
+    border-top:2px solid var(--border);
+    margin-top:15px;
+    padding-top:18px;
+    display:flex;
+    justify-content:space-between;
+    font-size:20px;
+    font-weight:bold;
+}
+
+.empty{
+    text-align:center;
+    color:var(--muted);
+    padding:35px;
+}
+
+/* BRAND CARDS */
+
+.brand-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+}
+
+.brand-card{
+    background:white;
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:25px;
+    text-align:center;
+}
+
+.brand-logo{
+    width:70px;
+    height:70px;
+    border-radius:18px;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#eff6ff;
+    color:#2563eb;
+    font-size:25px;
+    font-weight:bold;
+}
+
+.brand-card h3{
+    margin:15px 0 6px;
+}
+
+.brand-card p{
+    color:var(--muted);
+    font-size:13px;
+}
+
+/* SALES */
+
+.sales-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:18px;
+}
+
+.sales-card{
+    background:white;
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:25px;
+}
+
+.sales-card h4{
+    color:var(--muted);
+    font-size:14px;
+}
+
+.sales-value{
+    font-size:30px;
+    font-weight:bold;
+    margin-top:12px;
+}
+
+/* TOAST */
+
+.toast{
+    position:fixed;
+    right:25px;
+    bottom:25px;
+    background:#0f172a;
+    color:white;
+    padding:14px 20px;
+    border-radius:10px;
+    opacity:0;
+    transform:translateY(20px);
+    pointer-events:none;
+    transition:.3s;
+    z-index:99999;
+}
+
+.toast.show{
+    opacity:1;
+    transform:translateY(0);
+}
+
+/* MOBILE */
+
+.mobile-menu{
+    display:none;
+    border:none;
+    background:none;
+    font-size:24px;
+    cursor:pointer;
+}
+
+@media(max-width:1000px){
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .two-column,
+    .billing-grid{
+        grid-template-columns:1fr;
+    }
+
+    .brand-grid{
+        grid-template-columns:1fr 1fr;
+    }
+}
+
+@media(max-width:750px){
+
+    .sidebar{
+        transform:translateX(-100%);
+        transition:.3s;
+    }
+
+    .sidebar.open{
+        transform:translateX(0);
+    }
+
+    .main{
+        margin-left:0;
+    }
+
+    .mobile-menu{
+        display:block;
+    }
+
+    .topbar{
+        padding:0 15px;
+    }
+
+    .content{
+        padding:18px;
+    }
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .brand-grid,
+    .sales-grid{
+        grid-template-columns:1fr;
+    }
+
+    .search{
+        min-width:150px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN SCREEN -->
+
+<div class="login-screen" id="loginScreen">
+
+    <div class="login-box" id="loginBox">
+
+        <div class="logo">
+            <div class="logo-icon">📦</div>
+            <div>StockLive</div>
+        </div>
+
+        <p>SSVT Traders · Smart Distribution System</p>
+
+        <h2>Welcome Back</h2>
+        <p>Login to manage your distributor inventory.</p>
+
+        <div class="input-group">
+            <label>Gmail Address</label>
+            <input type="email" id="loginEmail" placeholder="example@gmail.com">
+        </div>
+
+        <div class="input-group">
+            <label>Password</label>
+            <input type="password" id="loginPassword" placeholder="Enter password">
+        </div>
+
+        <button class="btn btn-primary full" onclick="login()">
+            Login
+        </button>
+
+        <div class="switch-login">
+            Don't have an account?
+            <span onclick="showRegister()">Create Account</span>
+        </div>
+
+    </div>
+
+
+    <!-- REGISTER -->
+
+    <div class="login-box" id="registerBox" style="display:none">
+
+        <div class="logo">
+            <div class="logo-icon">📦</div>
+            <div>StockLive</div>
+        </div>
+
+        <h2>Create Account</h2>
+        <p>Create your SSVT Traders account.</p>
+
+        <div class="input-group">
+            <label>Full Name</label>
+            <input type="text" id="registerName" placeholder="Your name">
+        </div>
+
+        <div class="input-group">
+            <label>Gmail Address</label>
+            <input type="email" id="registerEmail" placeholder="example@gmail.com">
+        </div>
+
+        <div class="input-group">
+            <label>Password</label>
+            <input type="password" id="registerPassword" placeholder="Minimum 6 characters">
+        </div>
+
+        <div class="input-group">
+            <label>Confirm Password</label>
+            <input type="password" id="registerConfirm" placeholder="Confirm password">
+        </div>
+
+        <button class="btn btn-primary full" onclick="createAccount()">
+            Create Account
+        </button>
+
+        <div class="switch-login">
+            Already have an account?
+            <span onclick="showLogin()">Login</span>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- APPLICATION -->
+
+<div class="app" id="app">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar" id="sidebar">
+
+        <div class="sidebar-brand">
+            <div class="logo-icon">📦</div>
+            <div>
+                <h2>StockLive</h2>
+                <small>SSVT Traders</small>
+            </div>
+        </div>
+
+        <nav class="nav">
+
+            <button class="active" onclick="showPage('dashboard',this)">
+                📊 Dashboard
+            </button>
+
+            <button onclick="showPage('inventory',this)">
+                📦 Inventory
+            </button>
+
+            <button onclick="showPage('brands',this)">
+                🏷️ Brands & Products
+            </button>
+
+            <button onclick="showPage('billing',this)">
+                🧾 Retailer Billing
+            </button>
+
+            <button onclick="showPage('shops',this)">
+                🏪 Shops
+            </button>
+
+            <button onclick="showPage('sales',this)">
+                📈 Sales Analytics
+            </button>
+
+        </nav>
+
+        <button class="btn btn-danger full logout" onclick="logout()">
+            🚪 Logout
+        </button>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main">
+
+        <header class="topbar">
+
+            <div style="display:flex;align-items:center;gap:15px">
+
+                <button class="mobile-menu" onclick="toggleSidebar()">
+                    ☰
+                </button>
+
+                <div>
+                    <h3 id="topTitle">Dashboard</h3>
+                </div>
+
+            </div>
+
+            <div class="user-area">
+
+                <div>
+                    <strong id="userName">Admin</strong>
+                    <div style="font-size:11px;color:#718096">
+                        Distributor
+                    </div>
+                </div>
+
+                <div class="avatar" id="avatar">
+                    A
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <div class="content">
+
+
+            <!-- DASHBOARD -->
+
+            <section class="page active" id="dashboard">
+
+                <div class="page-title">
+
+                    <div>
+                        <h1>Dashboard</h1>
+                        <p>Real-time overview of your distribution business.</p>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="refreshData()">
+                        ↻ Refresh
+                    </button>
+
+                </div>
+
+
+                <div class="stats">
+
+                    <div class="stat-card">
+                        <div class="stat-top">
+                            <span>Total Products</span>
+                            <div class="stat-icon">📦</div>
+                        </div>
+                        <div class="stat-number" id="totalProducts">
+                            0
+                        </div>
+                        <div class="stat-label">
+                            Active SKUs
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-top">
+                            <span>Stock Units</span>
+                            <div class="stat-icon">📊</div>
+                        </div>
+                        <div class="stat-number" id="totalStock">
+                            0
+                        </div>
+                        <div class="stat-label">
+                            Units available
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-top">
+                            <span>Low Stock</span>
+                            <div class="stat-icon">⚠️</div>
+                        </div>
+                        <div class="stat-number" id="lowStock">
+                            0
+                        </div>
+                        <div class="stat-label">
+                            Products need attention
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-top">
+                            <span>Out of Stock</span>
+                            <div class="stat-icon">🚨</div>
+                        </div>
+                        <div class="stat-number" id="outStock">
+                            0
+                        </div>
+                        <div class="stat-label">
+                            Products unavailable
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="two-column">
+
+                    <div class="panel">
+
+                        <div class="panel-header">
+                            <h2>Inventory Overview</h2>
+                            <button class="btn btn-secondary"
+                                    onclick="showPage('inventory',document.querySelector('.nav button:nth-child(2)'))">
+                                View All
+                            </button>
+                        </div>
+
+                        <div class="table-wrapper">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Brand</th>
+                                        <th>Stock</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="dashboardInventory"></tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+
+                    <div class="panel">
+
+                        <div class="panel-header">
+                            <h2>Quick Actions</h2>
+                        </div>
+
+                        <button class="btn btn-primary full"
+                                style="margin-bottom:12px"
+                                onclick="showPage('billing',document.querySelector('.nav button:nth-child(4)'))">
+                            🧾 Create Retailer Bill
+                        </button>
+
+                        <button class="btn btn-secondary full"
+                                style="margin-bottom:12px"
+                                onclick="addProduct()">
+                            ➕ Add Product
+                        </button>
+
+                        <button class="btn btn-secondary full"
+                                onclick="addShop()">
+                            🏪 Add Retailer Shop
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- INVENTORY -->
+
+            <section class="page" id="inventory">
+
+                <div class="page-title">
+
+                    <div>
+                        <h1>Inventory</h1>
+                        <p>Track distributor stock in real time.</p>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="addProduct()">
+                        + Add Product
+                    </button>
+
+                </div>
+
+                <div class="panel">
+
+                    <div class="panel-header">
+
+                        <h2>Product Inventory</h2>
+
+                        <input
+                            class="search"
+                            id="inventorySearch"
+                            onkeyup="filterInventory()"
+                            placeholder="Search product..."
+                        >
+
+                    </div>
+
+                    <div class="table-wrapper">
+
+                        <table>
+
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Category</th>
+                                    <th>Brand</th>
+                                    <th>Price</th>
+                                    <th>Stock</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="inventoryTable"></tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- BRANDS -->
+
+            <section class="page" id="brands">
+
+                <div class="page-title">
+
+                    <div>
+                        <h1>Brands & Products</h1>
+                        <p>Manage manufacturer product categories.</p>
+                    </div>
+
+                </div>
+
+                <div class="brand-grid">
+
+                    <div class="brand-card">
+                        <div class="brand-logo">C</div>
+                        <h3>Colgate</h3>
+                        <p>Oral Care Products</p>
+                        <br>
+                        <strong id="colgateCount">0 Products</strong>
+                    </div>
+
+                    <div class="brand-card">
+                        <div class="brand-logo">G</div>
+                        <h3>Godrej</h3>
+                        <p>Home & Personal Care</p>
+                        <br>
+                        <strong id="godrejCount">0 Products</strong>
+                    </div>
+
+                    <div class="brand-card">
+                        <div class="brand-logo">K</div>
+                        <h3>Kellogg's</h3>
+                        <p>Packaged Food</p>
+                        <br>
+                        <strong id="kelloggCount">0 Products</strong>
+                    </div>
+
+                </div>
+
+
+                <div class="panel" style="margin-top:20px">
+
+                    <div class="panel-header">
+                        <h2>Complete Product Catalog</h2>
+                    </div>
+
+                    <div class="table-wrapper">
+
+                        <table>
+
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Brand</th>
+                                    <th>Category</th>
+                                    <th>Price</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="brandTable"></tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- BILLING -->
+
+            <section class="page" id="billing">
+
+                <div class="page-title">
+
+                    <div>
+                        <h1>Retailer Billing</h1>
+                        <p>Create invoices and automatically reduce stock.</p>
+                    </div>
+
+                </div>
+
+
+                <div class="billing-grid">
+
+                    <div class="panel">
+
+                        <div class="panel-header">
+                            <h2>Add Products</h2>
+                        </div>
+
+                        <div class="input-group">
+
+                            <label>Select Retailer</label>
+
+                            <select id="shopSelect">
+                                <option value="">Select shop</option>
+                            </select>
+
+                        </div>
+
+
+                        <div class="input-group">
+
+                            <label>Select Product</label>
+
+                            <select id="productSelect">
+                                <option value="">Select product</option>
+                            </select>
+
+                        </div>
+
+
+                        <div class="input-group">
+
+                            <label>Quantity</label>
+
+                            <input
+                                type="number"
+                                id="billQuantity"
+                                value="1"
+                                min="1"
+                            >
+
+                        </div>
+
+
+                        <button class="btn btn-primary full"
+                                onclick="addToBill()">
+                            + Add Product
+                        </button>
+
+                    </div>
+
+
+                    <div class="panel">
+
+                        <div class="panel-header">
+                            <h2>Current Bill</h2>
+                            <span id="billShopName"
+                                  style="font-size:12px;color:#718096">
+                                No shop
+                            </span>
+                        </div>
+
+                        <div class="bill-items" id="billItems">
+
+                            <div class="empty">
+                                No products added.
+                            </div>
+
+                        </div>
+
+                        <div class="bill-total">
+                            <span>Total</span>
+                            <span>₹<span id="billTotal">0.00</span></span>
+                        </div>
+
+                        <button
+                            class="btn btn-primary full"
+                            style="margin-top:18px"
+                            onclick="completeSale()">
+                            ✓ Complete Sale
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- SHOPS -->
+
+            <section class="page" id="shops">
+
+                <div class="page-title">
+
+                    <div>
+                        <h1>Retailer Shops</h1>
+                        <p>Manage your distributor retailer network.</p>
+                    </div>
+
+                    <button class="btn btn-primary" onclick="addShop()">
+                        + Add Shop
+                    </button>
+
+                </div>
+
+
+                <div class="panel">
+
+                    <div class="table-wrapper">
+
+                        <table>
+
+                            <thead>
+                                <tr>
+                                    <th>Shop Name</th>
+                                    <th>Location</th>
+                                    <th>Contact</th>
+                                    <th>Orders</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="shopsTable"></tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- SALES -->
+
+            <section class="page" id="sales">
+
+                <div class="page-title">
+
+                    <div>
+                        <h1>Sales Analytics</h1>
+                        <p>Monitor retailer sales and invoice performance.</p>
+                    </div>
+
+                </div>
+
+
+                <div class="sales-grid">
+
+                    <div class="sales-card">
+                        <h4>Total Revenue</h4>
+                        <div class="sales-value">
+                            ₹<span id="totalRevenue">0</span>
+                        </div>
+                    </div>
+
+                    <div class="sales-card">
+                        <h4>Total Orders</h4>
+                        <div class="sales-value" id="totalOrders">
+                            0
+                        </div>
+                    </div>
+
+                    <div class="sales-card">
+                        <h4>Average Order Value</h4>
+                        <div class="sales-value">
+                            ₹<span id="averageOrder">0</span>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="panel" style="margin-top:20px">
+
+                    <div class="panel-header">
+                        <h2>Recent Invoices</h2>
+                    </div>
+
+                    <div class="table-wrapper">
+
+                        <table>
+
+                            <thead>
+                                <tr>
+                                    <th>Invoice</th>
+                                    <th>Shop</th>
+                                    <th>Date</th>
+                                    <th>Amount</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="salesTable"></tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<div class="toast" id="toast"></div>
+
+
+<script>
+
+/* ==============================
+   DATA
+============================== */
+
+let products = JSON.parse(
+    localStorage.getItem("stockliveProducts")
+) || [
+
+    {
+        id:1,
+        name:"Colgate Salt 100g",
+        category:"Toothpaste",
+        brand:"Colgate",
+        price:79,
+        stock:713
+    },
+
+    {
+        id:2,
+        name:"Colgate SF 9+3",
+        category:"Toothbrush",
+        brand:"Colgate",
+        price:240,
+        stock:800
+    },
+
+    {
+        id:3,
+        name:"Godrej Fab",
+        category:"Washing",
+        brand:"Godrej",
+        price:99,
+        stock:450
+    },
+
+    {
+        id:4,
+        name:"Cinthol Health+",
+        category:"Soap",
+        brand:"Godrej",
+        price:45,
+        stock:357
+    },
+
+    {
+        id:5,
+        name:"Cinthol Lime",
+        category:"Soap",
+        brand:"Godrej",
+        price:45,
+        stock:184
+    },
+
+    {
+        id:6,
+        name:"Kellogg's Chocos",
+        category:"Cereal",
+        brand:"Kellogg's",
+        price:10,
+        stock:256
+    },
+
+    {
+        id:7,
+        name:"Kellogg's Corn Flakes",
+        category:"Cereal",
+        brand:"Kellogg's",
+        price:55,
+        stock:75
+    }
+
+];
+
+
+let shops = JSON.parse(
+    localStorage.getItem("stockliveShops")
+) || [
+
+    {
+        id:1,
+        name:"Sri Murugan Stores",
+        location:"Madurai",
+        contact:"9876543210",
+        orders:0
+    },
+
+    {
+        id:2,
+        name:"SS Super Market",
+        location:"Coimbatore",
+        contact:"9876543211",
+        orders:0
+    }
+
+];
+
+
+let sales = JSON.parse(
+    localStorage.getItem("stockliveSales")
+) || [];
+
+
+let accounts = JSON.parse(
+    localStorage.getItem("stockliveAccounts")
+) || [];
+
+
+let bill = [];
+
+
+/* ==============================
+   STORAGE
+============================== */
+
+function saveData(){
+
+    localStorage.setItem(
+        "stockliveProducts",
+        JSON.stringify(products)
+    );
+
+    localStorage.setItem(
+        "stockliveShops",
+        JSON.stringify(shops)
+    );
+
+    localStorage.setItem(
+        "stockliveSales",
+        JSON.stringify(sales)
+    );
+
+}
+
+
+/* ==============================
+   LOGIN
+============================== */
+
+function showRegister(){
+
+    document.getElementById("loginBox").style.display="none";
+
+    document.getElementById("registerBox").style.display="block";
+
+}
+
+
+function showLogin(){
+
+    document.getElementById("registerBox").style.display="none";
+
+    document.getElementById("loginBox").style.display="block";
+
+}
+
+
+function createAccount(){
+
+    const name =
+        document.getElementById("registerName").value.trim();
+
+    const email =
+        document.getElementById("registerEmail").value.trim();
+
+    const password =
+        document.getElementById("registerPassword").value;
+
+    const confirm =
+        document.getElementById("registerConfirm").value;
+
+
+    if(!name || !email || !password || !confirm){
+
+        showToast("Please fill all fields.");
+
+        return;
+
+    }
+
+
+    if(!/^[^\s@]+@gmail\.com$/i.test(email)){
+
+        showToast("Please use a valid Gmail address.");
+
+        return;
+
+    }
+
+
+    if(password.length < 6){
+
+        showToast("Password must contain at least 6 characters.");
+
+        return;
+
+    }
+
+
+    if(password !== confirm){
+
+        showToast("Passwords do not match.");
+
+        return;
+
+    }
+
+
+    if(accounts.some(a =>
+        a.email.toLowerCase() === email.toLowerCase()
+    )){
+
+        showToast("Account already exists.");
+
+        return;
+
+    }
+
+
+    accounts.push({
+        name:name,
+        email:email,
+        password:password
+    });
+
+
+    localStorage.setItem(
+        "stockliveAccounts",
+        JSON.stringify(accounts)
+    );
+
+
+    showToast("Account created successfully.");
+
+    document.getElementById("registerName").value="";
+    document.getElementById("registerEmail").value="";
+    document.getElementById("registerPassword").value="";
+    document.getElementById("registerConfirm").value="";
+
+    showLogin();
+
+}
+
+
+function login(){
+
+    const email =
+        document.getElementById("loginEmail").value.trim();
+
+    const password =
+        document.getElementById("loginPassword").value;
+
+
+    const account = accounts.find(a =>
+        a.email.toLowerCase() === email.toLowerCase()
+        && a.password === password
+    );
+
+
+    if(!account){
+
+        showToast(
+            "Invalid login. Create an account first."
+        );
+
+        return;
+
+    }
+
+
+    sessionStorage.setItem(
+        "stockliveLogged",
+        "true"
+    );
+
+    sessionStorage.setItem(
+        "stockliveUser",
+        JSON.stringify(account)
+    );
+
+
+    openApplication(account);
+
+}
+
+
+function openApplication(account){
+
+    document.getElementById("loginScreen").style.display="none";
+
+    document.getElementById("app").style.display="block";
+
+    document.getElementById("userName").textContent =
+        account.name;
+
+    document.getElementById("avatar").textContent =
+        account.name.charAt(0).toUpperCase();
+
+    loadAll();
+
+}
+
+
+function logout(){
+
+    sessionStorage.removeItem("stockliveLogged");
+
+    sessionStorage.removeItem("stockliveUser");
+
+    location.reload();
+
+}
+
+
+/* ==============================
+   NAVIGATION
+============================== */
+
+function showPage(id,btn){
+
+    document.querySelectorAll(".page").forEach(page=>{
+        page.classList.remove("active");
+    });
+
+
+    document.getElementById(id).classList.add("active");
+
+
+    document.querySelectorAll(".nav button").forEach(button=>{
+        button.classList.remove("active");
+    });
+
+
+    if(btn){
+        btn.classList.add("active");
+    }
+
+
+    const titles={
+        dashboard:"Dashboard",
+        inventory:"Inventory",
+        brands:"Brands & Products",
+        billing:"Retailer Billing",
+        shops:"Retailer Shops",
+        sales:"Sales Analytics"
+    };
+
+
+    document.getElementById("topTitle").textContent =
+        titles[id] || "StockLive";
+
+
+    document.getElementById("sidebar")
+        .classList.remove("open");
+
+}
+
+
+function toggleSidebar(){
+
+    document.getElementById("sidebar")
+        .classList.toggle("open");
+
+}
+
+
+/* ==============================
+   STATUS
+============================== */
+
+function getStatus(stock){
+
+    if(stock <= 0){
+
+        return `
+        <span class="badge badge-danger">
+            OUT OF STOCK
+        </span>`;
+
+    }
+
+    if(stock < 50){
+
+        return `
+        <span class="badge badge-warning">
+            LOW STOCK
+        </span>`;
+
+    }
+
+    return `
+    <span class="badge badge-success">
+        AVAILABLE
+    </span>`;
+
+}
+
+
+/* ==============================
+   DASHBOARD
+============================== */
+
+function loadDashboard(){
+
+    const total =
+        products.reduce(
+            (sum,p)=>sum + Number(p.stock),0
+        );
+
+
+    const low =
+        products.filter(
+            p=>p.stock > 0 && p.stock < 50
+        ).length;
+
+
+    const out =
+        products.filter(
+            p=>p.stock <= 0
+        ).length;
+
+
+    document.getElementById("totalProducts")
+        .textContent=products.length;
+
+    document.getElementById("totalStock")
+        .textContent=total;
+
+    document.getElementById("lowStock")
+        .textContent=low;
+
+    document.getElementById("outStock")
+        .textContent=out;
+
+
+    const tbody =
+        document.getElementById("dashboardInventory");
+
+
+    tbody.innerHTML="";
+
+
+    products.slice(0,6).forEach(p=>{
+
+        tbody.innerHTML += `
+
+        <tr>
+
+            <td>
+                <div class="product-name">
+                    ${escapeHTML(p.name)}
+                </div>
+
+                <div class="product-sub">
+                    ${escapeHTML(p.category)}
+                </div>
+            </td>
+
+            <td>${escapeHTML(p.brand)}</td>
+
+            <td>${p.stock}</td>
+
+            <td>${getStatus(p.stock)}</td>
+
+        </tr>
+
+        `;
+
+    });
+
+}
+
+
+/* ==============================
+   INVENTORY
+============================== */
+
+function loadInventory(){
+
+    const tbody =
+        document.getElementById("inventoryTable");
+
+
+    tbody.innerHTML="";
+
+
+    products.forEach(p=>{
+
+        tbody.innerHTML += `
+
+        <tr>
+
+            <td>
+                <div class="product-name">
+                    ${escapeHTML(p.name)}
+                </div>
+
+                <div class="product-sub">
+                    SKU-${String(p.id).padStart(4,"0")}
+                </div>
+            </td>
+
+            <td>${escapeHTML(p.category)}</td>
+
+            <td>${escapeHTML(p.brand)}</td>
+
+            <td>₹${Number(p.price).toFixed(2)}</td>
+
+            <td>
+                <strong>${p.stock}</strong>
+            </td>
+
+            <td>
+                ${getStatus(p.stock)}
+            </td>
+
+        </tr>
+
+        `;
+
+    });
+
+}
+
+
+function filterInventory(){
+
+    const value =
+        document.getElementById("inventorySearch")
+        .value.toLowerCase();
+
+
+    document.querySelectorAll("#inventoryTable tr")
+        .forEach(row=>{
+
+            row.style.display =
+                row.innerText.toLowerCase()
+                .includes(value)
+                ? ""
+                : "none";
+
+        });
+
+}
+
+
+/* ==============================
+   BRANDS
+============================== */
+
+function loadBrands(){
+
+    document.getElementById("colgateCount")
+        .textContent =
+        products.filter(p=>p.brand==="Colgate").length
+        + " Products";
+
+
+    document.getElementById("godrejCount")
+        .textContent =
+        products.filter(p=>p.brand==="Godrej").length
+        + " Products";
+
+
+    document.getElementById("kelloggCount")
+        .textContent =
+        products.filter(p=>p.brand==="Kellogg's").length
+        + " Products";
+
+
+    const tbody =
+        document.getElementById("brandTable");
+
+
+    tbody.innerHTML="";
+
+
+    products.forEach(p=>{
+
+        tbody.innerHTML += `
+
+        <tr>
+
+            <td>
+                <strong>
+                    ${escapeHTML(p.name)}
+                </strong>
+            </td>
+
+            <td>${escapeHTML(p.brand)}</td>
+
+            <td>${escapeHTML(p.category)}</td>
+
+            <td>₹${Number(p.price).toFixed(2)}</td>
+
+        </tr>
+
+        `;
+
+    });
+
+}
+
+
+/* ==============================
+   BILLING
+============================== */
+
+function loadBilling(){
+
+    const shopSelect =
+        document.getElementById("shopSelect");
+
+
+    shopSelect.innerHTML =
+        `<option value="">Select shop</option>`;
+
+
+    shops.forEach(shop=>{
+
+        shopSelect.innerHTML += `
+
+        <option value="${shop.id}">
+            ${escapeHTML(shop.name)}
+        </option>
+
+        `;
+
+    });
+
+
+    const productSelect =
+        document.getElementById("productSelect");
+
+
+    productSelect.innerHTML =
+        `<option value="">Select product</option>`;
+
+
+    products
+        .filter(p=>p.stock>0)
+        .forEach(p=>{
+
+            productSelect.innerHTML += `
+
+            <option value="${p.id}">
+                ${escapeHTML(p.name)}
+                - ₹${p.price}
+                (${p.stock} available)
+            </option>
+
+            `;
+
+        });
+
+}
+
+
+function addToBill(){
+
+    const shopId =
+        document.getElementById("shopSelect").value;
+
+    const productId =
+        document.getElementById("productSelect").value;
+
+    const quantity =
+        Number(
+            document.getElementById("billQuantity").value
+        );
+
+
+    if(!shopId){
+
+        showToast("Please select a retailer shop.");
+
+        return;
+
+    }
+
+
+    if(!productId){
+
+        showToast("Please select a product.");
+
+        return;
+
+    }
+
+
+    if(quantity < 1){
+
+        showToast("Quantity must be at least 1.");
+
+        return;
+
+    }
+
+
+    const product =
+        products.find(
+            p=>p.id === Number(productId)
+        );
+
+
+    if(!product){
+
+        showToast("Product not found.");
+
+        return;
+
+    }
+
+
+    const existing =
+        bill.find(
+            item=>item.productId === product.id
+        );
+
+
+    const currentQuantity =
+        existing ? existing.quantity : 0;
+
+
+    if(currentQuantity + quantity > product.stock){
+
+        showToast(
+            `Only ${product.stock} units available.`
+        );
+
+        return;
+
+    }
+
+
+    if(existing){
+
+        existing.quantity += quantity;
+
+    }else{
+
+        bill.push({
+            productId:product.id,
+            quantity:quantity
+        });
+
+    }
+
+
+    displayBill();
+
+    showToast("Product added to bill.");
+
+}
+
+
+function displayBill(){
+
+    const container =
+        document.getElementById("billItems");
+
+
+    const totalElement =
+        document.getElementById("billTotal");
+
+
+    const shopSelect =
+        document.getElementById("shopSelect");
+
+
+    const selectedShop =
+        shops.find(
+            s=>s.id === Number(shopSelect.value)
+        );
+
+
+    document.getElementById("billShopName")
+        .textContent =
+        selectedShop
+        ? selectedShop.name
+        : "No shop";
+
+
+    if(bill.length===0){
+
+        container.innerHTML =
+            `<div class="empty">
+                No products added.
+            </div>`;
+
+        totalElement.textContent="0.00";
+
+        return;
+
+    }
+
+
+    let total=0;
+
+    container.innerHTML="";
+
+
+    bill.forEach(item=>{
+
+        const product =
+            products.find(
+                p=>p.id===item.productId
+            );
+
+
+        if(!product) return;
+
+
+        const subtotal =
+            product.price * item.quantity;
+
+
+        total += subtotal;
+
+
+        container.innerHTML += `
+
+        <div class="bill-item">
+
+            <div>
+
+                <strong>
+                    ${escapeHTML(product.name)}
+                </strong>
+
+                <div class="product-sub">
+                    ${item.quantity} × ₹${product.price}
+                </div>
+
+            </div>
+
+            <div style="text-align:right">
+
+                <strong>
+                    ₹${subtotal.toFixed(2)}
+                </strong>
+
+                <br>
+
+                <button
+                    class="btn btn-danger"
+                    style="padding:5px 8px;margin-top:5px"
+                    onclick="removeFromBill(${product.id})">
+                    Remove
+                </button>
+
+            </div>
+
+        </div>
+
+        `;
+
+    });
+
+
+    totalElement.textContent =
+        total.toFixed(2);
+
+}
+
+
+function removeFromBill(productId){
+
+    bill =
+        bill.filter(
+            item=>item.productId !== productId
+        );
+
+    displayBill();
+
+}
+
+
+/* ==============================
+   COMPLETE SALE
+============================== */
+
+function completeSale(){
+
+    const shopId =
+        document.getElementById("shopSelect").value;
+
+
+    if(!shopId){
+
+        showToast("Select a retailer shop.");
+
+        return;
+
+    }
+
+
+    if(bill.length===0){
+
+        showToast("Add products to the bill.");
+
+        return;
+
+    }
+
+
+    const shop =
+        shops.find(
+            s=>s.id === Number(shopId)
+        );
+
+
+    let total=0;
+
+
+    bill.forEach(item=>{
+
+        const product =
+            products.find(
+                p=>p.id===item.productId
+            );
+
+
+        if(!product) return;
+
+
+        product.stock -= item.quantity;
+
+        total +=
+            product.price * item.quantity;
+
+    });
+
+
+    shop.orders++;
+
+
+    const invoice = {
+
+        id:"INV-" +
+            Date.now()
+            .toString()
+            .slice(-6),
+
+        shop:shop.name,
+
+        amount:total,
+
+        date:new Date()
+            .toLocaleString("en-IN")
+
+    };
+
+
+    sales.unshift(invoice);
+
+
+    bill=[];
+
+
+    saveData();
+
+    loadAll();
+
+
+    showToast(
+        `Sale completed successfully: ₹${total.toFixed(2)}`
+    );
+
+}
+
+
+/* ==============================
+   SHOPS
+============================== */
+
+function loadShops(){
+
+    const tbody =
+        document.getElementById("shopsTable");
+
+
+    tbody.innerHTML="";
+
+
+    shops.forEach(shop=>{
+
+        tbody.innerHTML += `
+
+        <tr>
+
+            <td>
+                <strong>
+                    ${escapeHTML(shop.name)}
+                </strong>
+            </td>
+
+            <td>${escapeHTML(shop.location)}</td>
+
+            <td>${escapeHTML(shop.contact)}</td>
+
+            <td>${shop.orders}</td>
+
+        </tr>
+
+        `;
+
+    });
+
+}
+
+
+function addShop(){
+
+    const name =
+        prompt("Enter retailer shop name:");
+
+    if(!name) return;
+
+
+    const location =
+        prompt("Enter shop location:");
+
+    if(!location) return;
+
+
+    const contact =
+        prompt("Enter contact number:");
+
+    if(!contact) return;
+
+
+    shops.push({
+
+        id:Date.now(),
+
+        name:name,
+
+        location:location,
+
+        contact:contact,
+
+        orders:0
+
+    });
+
+
+    saveData();
+
+    loadAll();
+
+    showToast("Retailer shop added.");
+
+}
+
+
+/* ==============================
+   ADD PRODUCT
+============================== */
+
+function addProduct(){
+
+    const name =
+        prompt("Enter product name:");
+
+    if(!name) return;
+
+
+    const brand =
+        prompt(
+            "Enter brand (Colgate / Godrej / Kellogg's):"
+        );
+
+    if(!brand) return;
+
+
+    const category =
+        prompt("Enter category:");
+
+    if(!category) return;
+
+
+    const price =
+        Number(
+            prompt("Enter price:")
+        );
+
+
+    const stock =
+        Number(
+            prompt("Enter stock quantity:")
+        );
+
+
+    if(
+        isNaN(price) ||
+        isNaN(stock) ||
+        price < 0 ||
+        stock < 0
+    ){
+
+        showToast("Invalid price or stock.");
+
+        return;
+
+    }
+
+
+    products.push({
+
+        id:Date.now(),
+
+        name:name,
+
+        brand:brand,
+
+        category:category,
+
+        price:price,
+
+        stock:stock
+
+    });
+
+
+    saveData();
+
+    loadAll();
+
+    showToast("Product added successfully.");
+
+}
+
+
+/* ==============================
+   SALES
+============================== */
+
+function loadSales(){
+
+    const revenue =
+        sales.reduce(
+            (sum,s)=>sum + Number(s.amount),
+            0
+        );
+
+
+    document.getElementById("totalRevenue")
+        .textContent =
+        revenue.toFixed(2);
+
+
+    document.getElementById("totalOrders")
+        .textContent =
+        sales.length;
+
+
+    document.getElementById("averageOrder")
+        .textContent =
+        sales.length
+        ? (revenue / sales.length).toFixed(2)
+        : "0.00";
+
+
+    const tbody =
+        document.getElementById("salesTable");
+
+
+    tbody.innerHTML="";
+
+
+    if(sales.length===0){
+
+        tbody.innerHTML=`
+
+        <tr>
+            <td colspan="4">
+                <div class="empty">
+                    No sales recorded yet.
+                </div>
+            </td>
+        </tr>
+
+        `;
+
+        return;
+
+    }
+
+
+    sales.slice(0,20).forEach(s=>{
+
+        tbody.innerHTML += `
+
+        <tr>
+
+            <td>
+                <strong>${escapeHTML(s.id)}</strong>
+            </td>
+
+            <td>${escapeHTML(s.shop)}</td>
+
+            <td>${escapeHTML(s.date)}</td>
+
+            <td>
+                <strong>
+                    ₹${Number(s.amount).toFixed(2)}
+                </strong>
+            </td>
+
+        </tr>
+
+        `;
+
+    });
+
+}
+
+
+/* ==============================
+   LOAD ALL
+============================== */
+
+function loadAll(){
+
+    loadDashboard();
+
+    loadInventory();
+
+    loadBrands();
+
+    loadBilling();
+
+    loadShops();
+
+    loadSales();
+
+    displayBill();
+
+}
+
+
+/* ==============================
+   REFRESH
+============================== */
+
+function refreshData(){
+
+    loadAll();
+
+    showToast("Dashboard refreshed.");
+
+}
+
+
+/* ==============================
+   TOAST
+============================== */
+
+let toastTimer;
+
+
+function showToast(message){
+
+    const toast =
+        document.getElementById("toast");
+
+
+    toast.textContent=message;
+
+    toast.classList.add("show");
+
+
+    clearTimeout(toastTimer);
+
+
+    toastTimer =
+        setTimeout(()=>{
+
+            toast.classList.remove("show");
+
+        },3000);
+
+}
+
+
+/* ==============================
+   SECURITY HELPER
+============================== */
+
+function escapeHTML(value){
+
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* ==============================
+   SHOP SELECTION
+============================== */
+
+document.addEventListener(
+    "change",
+    function(event){
+
+        if(event.target.id==="shopSelect"){
+
+            displayBill();
+
+        }
+
+    }
+);
+
+
+/* ==============================
+   START APPLICATION
+============================== */
+
+window.addEventListener(
+    "DOMContentLoaded",
+    function(){
+
+        const logged =
+            sessionStorage.getItem(
+                "stockliveLogged"
+            );
+
+
+        const savedUser =
+            sessionStorage.getItem(
+                "stockliveUser"
+            );
+
+
+        if(logged==="true" && savedUser){
+
+            try{
+
+                openApplication(
+                    JSON.parse(savedUser)
+                );
+
+            }catch(error){
+
+                sessionStorage.clear();
+
+            }
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>
